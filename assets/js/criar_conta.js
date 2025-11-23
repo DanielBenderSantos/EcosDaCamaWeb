@@ -14,7 +14,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     }
 
     try {
-        const response = await fetch(`${API_URL}/register`, {
+        const response = await fetch(`${API_URL}/users/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ nome, email, senha })
@@ -31,7 +31,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
         window.location.href = "index.html";
 
     } catch (err) {
-        console.error("Erro:", err);
+        console.error(err);
         alert("Erro ao conectar com o servidor");
     }
 });

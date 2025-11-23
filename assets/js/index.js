@@ -1,4 +1,3 @@
-// URL do backend no Render
 const API_URL = "https://ecosdacamaweb.onrender.com";
 
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
@@ -8,7 +7,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     const senha = document.getElementById("senha").value.trim();
 
     try {
-        const response = await fetch(`${API_URL}/login`, {
+        const response = await fetch(`${API_URL}/users/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, senha })
@@ -17,19 +16,17 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
         const data = await response.json();
 
         if (!response.ok) {
-            alert(data.error || "Erro ao fazer login");
+            alert(data.error || "Email ou senha incorretos");
             return;
         }
 
-        // salva o token para acessar rotas protegidas
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
 
-        // redirecionar
         window.location.href = "dashboard.html";
 
     } catch (err) {
-        console.error("Erro:", err);
+        console.error(err);
         alert("Erro ao conectar com o servidor");
     }
 });
