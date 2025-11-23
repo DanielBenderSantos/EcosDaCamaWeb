@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Novo Sonho</title>
+
+  <!-- CSS do seu menu -->
+  <link rel="stylesheet" href="./assets/css/menu.css">
+  <link rel="stylesheet" href="./assets/css/novo_sonho.css">
+
+
+</head>
+<body>
+
+  <!-- Ícone do menu -->
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="graficos.html">Gráficos</a>
+    <a href="perfil.html">Perfil</a>
+    <a href="novo_sonho.html">Novo Sonho</a>
+    <a href="#" onclick="logout()" class="logout-btn">Sair</a>
+  </div>
+
+  <!-- Conteúdo -->
+  <div class="content" id="content">
+    <div class="form-container">
+      <h2>Registrar Novo Sonho</h2>
+
+      <label for="titulo">Título do Sonho</label>
+      <input type="text" id="titulo" placeholder="Ex: Sonhei que estava voando..." />
+
+      <label for="descricao">Descrição do Sonho</label>
+      <textarea id="descricao" placeholder="Descreva seu sonho com detalhes..."></textarea>
+
+      <label for="sentimento">Sentimento Predominante</label>
+      <select id="sentimento">
+        <option value="" disabled selected>Selecione...</option>
+        <option value="bom">Bom</option>
+        <option value="neutro">Neutro</option>
+        <option value="ruim">Ruim</option>
+      </select>
+
+      <button onclick="salvarSonho()">Salvar Sonho</button>
+
+      <div id="successMsg" class="success-message">
+        Sonho salvo com sucesso! 🎉
+      </div>
+    </div>
+  </div>
+
+  <!-- Script do menu -->
+  <script src="./assets/js/menu.js"></script>
+  <script src="./assets/js/novo_sonho.js"></script>
+  <script src="./assets/js/logout.js"></script>
+  
+
+  <script>
+    
+  </script>
+
+</body>
+</html>
