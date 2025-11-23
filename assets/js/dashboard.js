@@ -9,52 +9,36 @@ let allDreams = [];
 let currentPage = 1;
 const pageSize = 5;
 
-function formatarData(dateStr, timeStr) {
-  if (!dateStr && !timeStr) return "";
+function formatarData(dateStr, timeStr, createdAt) {
+  let d = null;
 
-  // Caso o backend retorne created_at completo, usamos ele
-  if (!dateStr && typeof timeStr === "string" && timeStr.includes("T")) {
-    const d = new Date(timeStr);
-    return isNaN(d.getTime())
-      ? ""
-      : d.toLocaleString("pt-BR", {
-          dateStyle: "short",
-          timeStyle: "short",
-        });
-  }
-
-  // Se tiver date e time (separados)
+  // 1) Se tiver data e hora separados (colunas data e hora)
   if (dateStr && timeStr) {
-    const d = new Date(`${dateStr}T${timeStr}`);
-    return isNaN(d.getTime())
-      ? ""
-      : d.toLocaleString("pt-BR", {
-          dateStyle: "short",
-          timeStyle: "short",
-        });
+    d = new Date(`${dateStr}T${timeStr}`);
+  }
+  // 2) Se não tiver data/hora, tenta usar created_at
+  else if (createdAt) {
+    const safe = createdAt.replace(" ", "T"); // caso venha "2025-11-23 19:24:39"
+    d = new Date(safe);
+  }
+  // 3) Se só tiver data
+  else if (dateStr) {
+    d = new Date(dateStr);
+  } else {
+    return "";
   }
 
-  // Se tiver só a data
-  if (dateStr) {
-    const d = new Date(dateStr);
-    return isNaN(d.getTime())
-      ? ""
-      : d.toLocaleDateString("pt-BR");
-  }
+  if (isNaN(d.getTime())) return "";
 
-  // Se tiver só o created_at/hora combinado
-  if (timeStr) {
-    const d = new Date(timeStr);
-    return isNaN(d.getTime())
-      ? ""
-      : d.toLocaleString("pt-BR", {
-          dateStyle: "short",
-          timeStyle: "short",
-        });
-  }
+  const dia = String(d.getDate()).padStart(2, "0");
+  const mes = String(d.getMonth() + 1).padStart(2, "0");
+  const ano = d.getFullYear();
+  const horas = String(d.getHours()).padStart(2, "0");
+  const minutos = String(d.getMinutes()).padStart(2, "0");
 
-  return "";
+  return `${dia}/${mes}/${ano} • ${horas}:${minutos}`;
 }
+
 
 function renderPage(page) {
   dreamsContainer.innerHTML = "";
@@ -83,16 +67,16 @@ function renderPage(page) {
 
 
     card.innerHTML = `
-      <h3>${dream.titulo}</h3>
-      ${dataFormatada ? `<p class="dream-date">${dataFormatada}</p>` : ""}
-      <p class="dream-description">${dream.descricao}</p>
-      ${
+    <h3>${dream.titulo}</h3>
+    ${dataFormatada ? `<p class="dream-date">${dataFormatada}</p>` : ""}
+    <p class="dream-description">${dream.descricao}</p>
+    ${
         dream.humor
-          ? `<span class="dream-mood mood-${dream.humor}">
-              Humor: ${dream.humor}
-             </span>`
-          : ""
-      }
+        ? `<span class="dream-mood mood-${dream.humor}">
+            Humor: ${dream.humor}
+            </span>`
+        : ""
+    }
     `;
 
     dreamsContainer.appendChild(card);
