@@ -85,6 +85,32 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+// GET /dreams/:id  → buscar um sonho específico do usuário logado
+router.get("/:id", auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const fk_usuario = req.user.id;
+
+    const query = `
+      SELECT id, fk_usuario, titulo, descricao, humor, data, hora, created_at, updated_at
+      FROM dreams
+      WHERE id = $1
+        AND fk_usuario = $2
+        AND ativo = TRUE;
+    `;
+
+    const result = await pool.query(query, [id, fk_usuario]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Sonho não encontrado" });
+    }
+
+    return res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Erro ao buscar sonho:", err);
+    return res.status(500).json({ error: "Erro interno ao buscar sonho" });
+  }
+});
 // PUT /dreams/:id  → editar sonho (somente do dono e ativo)
 router.put("/:id", auth, async (req, res) => {
   try {

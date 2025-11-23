@@ -1,3 +1,5 @@
+// assets/js/dashboard.js
+
 const API_URL = "https://ecosdacamaweb.onrender.com";
 
 const dreamsContainer = document.getElementById("dreamsContainer");
@@ -7,7 +9,7 @@ const pageInfo = document.getElementById("pageInfo");
 
 let allDreams = [];
 let currentPage = 1;
-const pageSize = 5;
+const pageSize = 5; // quantos sonhos por página
 
 function getToken() {
   return localStorage.getItem("token");
@@ -16,6 +18,7 @@ function getToken() {
 function formatarDataDream(dream) {
   if (!dream.created_at) return "";
 
+  // cuidado com formato "2025-11-23 19:24:39"
   const iso = String(dream.created_at).replace(" ", "T");
   const d = new Date(iso);
 
@@ -80,7 +83,7 @@ function renderPage(page) {
   prevBtn.disabled = currentPage === 1;
   nextBtn.disabled = currentPage === totalPages;
 
-  // adiciona eventos dos botões
+  // eventos dos botões de ação
   document.querySelectorAll(".edit-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const id = btn.getAttribute("data-id");
@@ -128,69 +131,9 @@ async function carregarSonhos() {
   }
 }
 
-async function editarSonho(id) {
-  const token = getToken();
-  if (!token) {
-    window.location.href = "index.html";
-    return;
-  }
-
-  const sonho = allDreams.find((d) => String(d.id) === String(id));
-  if (!sonho) {
-    alert("Sonho não encontrado na lista.");
-    return;
-  }
-
-  const novoTitulo = prompt("Novo título do sonho:", sonho.titulo);
-  if (novoTitulo === null) return;
-
-  const novaDescricao = prompt("Nova descrição do sonho:", sonho.descricao);
-  if (novaDescricao === null) return;
-
-  const novoSentimento = prompt(
-    'Novo sentimento (bom, neutro, ruim):',
-    sonho.humor || "bom"
-  );
-  if (novoSentimento === null) return;
-
-  try {
-    const response = await fetch(`${API_URL}/dreams/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-      body: JSON.stringify({
-        titulo: novoTitulo,
-        descricao: novaDescricao,
-        sentimento: novoSentimento,
-      }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      alert(data.error || "Erro ao editar sonho");
-      return;
-    }
-
-    // Atualiza no array local
-    const idx = allDreams.findIndex((d) => String(d.id) === String(id));
-    if (idx !== -1) {
-      allDreams[idx] = {
-        ...allDreams[idx],
-        titulo: novoTitulo,
-        descricao: novaDescricao,
-        humor: novoSentimento,
-        updated_at: data.sonho.updated_at || allDreams[idx].updated_at,
-      };
-    }
-
-    renderPage(currentPage);
-  } catch (err) {
-    console.error("Erro ao editar sonho:", err);
-    alert("Erro ao editar sonho");
-  }
+function editarSonho(id) {
+  // redireciona para a tela de edição com o id na URL
+  window.location.href = `editar_sonho.html?id=${id}`;
 }
 
 async function excluirSonho(id) {
@@ -218,8 +161,13 @@ async function excluirSonho(id) {
       return;
     }
 
-    // remove do array local
+    // remove do array e re-renderiza
     allDreams = allDreams.filter((d) => String(d.id) !== String(id));
+
+    // caso a página fique vazia, volta uma página
+    const maxPage = Math.max(1, Math.ceil(allDreams.length / pageSize));
+    if (currentPage > maxPage) currentPage = maxPage;
+
     renderPage(currentPage);
   } catch (err) {
     console.error("Erro ao excluir sonho:", err);
