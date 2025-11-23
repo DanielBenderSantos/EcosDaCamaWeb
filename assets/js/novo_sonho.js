@@ -1,24 +1,60 @@
-function salvarSonho() {
-    const titulo = document.getElementById("titulo").value.trim();
-    const descricao = document.getElementById("descricao").value.trim();
-    const sentimento = document.getElementById("sentimento").value;
+const API_URL = "https://ecosdacamaweb.onrender.com";
 
-    if (!titulo || !descricao || !sentimento) {
-    alert("Preencha todos os campos!");
+async function salvarSonho() {
+  const titulo = document.getElementById("titulo").value.trim();
+  const descricao = document.getElementById("descricao").value.trim();
+  const sentimento = document.getElementById("sentimento").value;
+
+  if (!titulo || !descricao) {
+    alert("Por favor, preencha título e descrição.");
     return;
+  }
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Você precisa estar logado!");
+    window.location.href = "index.html";
+    return;
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/dreams`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: JSON.stringify({
+        titulo,
+        descricao,
+        sentimento
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      alert(data.error || "Erro ao salvar sonho");
+      return;
     }
 
-    // Aqui depois você troca pela sua API:
-    // fetch("https://sua-api/sonhos", { method: "POST", body: JSON.stringify({titulo, descricao, sentimento}) })
-
-    console.log("Sonho salvo:", { titulo, descricao, sentimento });
-
     // Mensagem de sucesso
-    const msg = document.getElementById("successMsg");
-    msg.style.display = "block";
+    const box = document.getElementById("successMsg");
+    box.style.display = "block";
 
-    // Limpar campos
+    // Limpa o formulário
     document.getElementById("titulo").value = "";
     document.getElementById("descricao").value = "";
     document.getElementById("sentimento").value = "";
+
+    // Some depois de 3s
+    setTimeout(() => {
+      box.style.display = "none";
+    }, 3000);
+
+  } catch (err) {
+    console.error("Erro:", err);
+    alert("Erro ao conectar com o servidor");
+  }
 }
