@@ -7,15 +7,12 @@ const pageInfo = document.getElementById("pageInfo");
 
 let allDreams = [];
 let currentPage = 1;
-const pageSize = 5; // quantos sonhos por página
+const pageSize = 5;
 
 function formatarData(dateStr, timeStr) {
-  if (!dateStr && !timeStr) {
-    return "";
-  }
+  if (!dateStr && !timeStr) return "";
 
   try {
-    // se tiver data/hora separados
     if (dateStr && timeStr) {
       return new Date(`${dateStr}T${timeStr}`).toLocaleString("pt-BR", {
         dateStyle: "short",
@@ -23,7 +20,6 @@ function formatarData(dateStr, timeStr) {
       });
     }
 
-    // fallback: tenta usar só a data ou created_at
     return new Date(dateStr || timeStr).toLocaleString("pt-BR", {
       dateStyle: "short",
       timeStyle: "short",
@@ -37,7 +33,8 @@ function renderPage(page) {
   dreamsContainer.innerHTML = "";
 
   if (allDreams.length === 0) {
-    dreamsContainer.innerHTML = `<p style="text-align:center;">Você ainda não registrou nenhum sonho.</p>`;
+    dreamsContainer.innerHTML =
+      `<p style="text-align:center;">Você ainda não registrou nenhum sonho.</p>`;
     pageInfo.textContent = "";
     prevBtn.disabled = true;
     nextBtn.disabled = true;
@@ -97,7 +94,8 @@ async function carregarSonhos() {
 
     if (!response.ok) {
       console.error("Erro ao carregar sonhos:", data);
-      dreamsContainer.innerHTML = `<p style="text-align:center;">Erro ao carregar seus sonhos.</p>`;
+      dreamsContainer.innerHTML =
+        `<p style="text-align:center;">Erro ao carregar seus sonhos.</p>`;
       return;
     }
 
@@ -105,11 +103,11 @@ async function carregarSonhos() {
     renderPage(1);
   } catch (err) {
     console.error("Erro de rede ao carregar sonhos:", err);
-    dreamsContainer.innerHTML = `<p style="text-align:center;">Erro de conexão ao carregar seus sonhos.</p>`;
+    dreamsContainer.innerHTML =
+      `<p style="text-align:center;">Erro de conexão ao carregar seus sonhos.</p>`;
   }
 }
 
-// eventos dos botões de página
 prevBtn.addEventListener("click", () => {
   renderPage(currentPage - 1);
 });
@@ -118,5 +116,4 @@ nextBtn.addEventListener("click", () => {
   renderPage(currentPage + 1);
 });
 
-// inicializa ao carregar a página
 document.addEventListener("DOMContentLoaded", carregarSonhos);

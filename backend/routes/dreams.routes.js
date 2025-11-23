@@ -6,9 +6,10 @@ require("dotenv").config();
 
 const router = express.Router();
 
-// middleware de auth simples
+// Middleware de autenticação simples
 function auth(req, res, next) {
   const authHeader = req.headers.authorization;
+
   if (!authHeader) {
     return res.status(401).json({ error: "Token não fornecido" });
   }
@@ -22,14 +23,14 @@ function auth(req, res, next) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "segredo_dev");
     req.user = decoded; // { id, email }
-    next();
+    return next();
   } catch (err) {
     console.error("Erro ao verificar token:", err);
     return res.status(401).json({ error: "Token inválido ou expirado" });
   }
 }
 
-// POST /dreams  → salvar novo sonho (já deve estar parecido com isso)
+// POST /dreams  → salvar novo sonho
 router.post("/", auth, async (req, res) => {
   try {
     const { titulo, descricao, sentimento } = req.body;
@@ -62,7 +63,7 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-// ✅ GET /dreams  → listar sonhos do usuário logado
+// GET /dreams  → listar sonhos do usuário logado
 router.get("/", auth, async (req, res) => {
   try {
     const fk_usuario = req.user.id;
