@@ -1,6 +1,15 @@
+// assets/js/novo_sonho.js
+
 const API_URL = "https://ecosdacamaweb.onrender.com";
 
+let isSaving = false; // trava para evitar cliques múltiplos
+
 async function salvarSonho() {
+  if (isSaving) {
+    // se já estiver salvando, ignora cliques extras
+    return;
+  }
+
   const titulo = document.getElementById("titulo").value.trim();
   const descricao = document.getElementById("descricao").value.trim();
   const sentimento = document.getElementById("sentimento").value;
@@ -11,25 +20,33 @@ async function salvarSonho() {
   }
 
   const token = localStorage.getItem("token");
-
   if (!token) {
     alert("Você precisa estar logado!");
     window.location.href = "index.html";
     return;
   }
 
+  const btn = document.getElementById("salvarBtn");
+  const successBox = document.getElementById("successMsg");
+
   try {
+    isSaving = true;
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "Salvando...";
+    }
+
     const response = await fetch(`${API_URL}/dreams`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + token
+        "Authorization": "Bearer " + token,
       },
       body: JSON.stringify({
         titulo,
         descricao,
-        sentimento
-      })
+        sentimento,
+      }),
     });
 
     const data = await response.json();
@@ -39,22 +56,30 @@ async function salvarSonho() {
       return;
     }
 
-    // Mensagem de sucesso
-    const box = document.getElementById("successMsg");
-    box.style.display = "block";
+    // Mostra mensagem de sucesso
+    if (successBox) {
+      successBox.style.display = "block";
+    }
 
-    // Limpa o formulário
+    // Limpa formulário
     document.getElementById("titulo").value = "";
     document.getElementById("descricao").value = "";
     document.getElementById("sentimento").value = "";
 
     // Some depois de 3s
     setTimeout(() => {
-      box.style.display = "none";
+      if (successBox) {
+        successBox.style.display = "none";
+      }
     }, 3000);
-
   } catch (err) {
     console.error("Erro:", err);
     alert("Erro ao conectar com o servidor");
+  } finally {
+    isSaving = false;
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = "Salvar Sonho";
+    }
   }
 }
