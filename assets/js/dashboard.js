@@ -9,24 +9,13 @@ let allDreams = [];
 let currentPage = 1;
 const pageSize = 5;
 
-function formatarData(dateStr, timeStr, createdAt) {
-  let d = null;
+function formatarDataDream(dream) {
+  // Usa sempre o created_at vindo do backend
+  if (!dream.created_at) return "";
 
-  // 1) Se tiver data e hora separados (colunas data e hora)
-  if (dateStr && timeStr) {
-    d = new Date(`${dateStr}T${timeStr}`);
-  }
-  // 2) Se não tiver data/hora, tenta usar created_at
-  else if (createdAt) {
-    const safe = createdAt.replace(" ", "T"); // caso venha "2025-11-23 19:24:39"
-    d = new Date(safe);
-  }
-  // 3) Se só tiver data
-  else if (dateStr) {
-    d = new Date(dateStr);
-  } else {
-    return "";
-  }
+  // created_at normalmente vem como string ISO: "2025-11-23T19:24:39.496Z"
+  const iso = String(dream.created_at).replace(" ", "T"); // caso venha "2025-11-23 19:24:39"
+  const d = new Date(iso);
 
   if (isNaN(d.getTime())) return "";
 
@@ -60,27 +49,26 @@ function renderPage(page) {
   const dreamsToShow = allDreams.slice(startIndex, endIndex);
 
   dreamsToShow.forEach((dream) => {
-    const card = document.createElement("div");
-    card.classList.add("dream-card");
+  const card = document.createElement("div");
+  card.classList.add("dream-card");
 
-    const dataFormatada = formatarData(dream.data, dream.hora, dream.created_at);
+  const dataFormatada = formatarDataDream(dream);
 
-
-    card.innerHTML = `
+  card.innerHTML = `
     <h3>${dream.titulo}</h3>
     ${dataFormatada ? `<p class="dream-date">${dataFormatada}</p>` : ""}
     <p class="dream-description">${dream.descricao}</p>
     ${
-        dream.humor
+      dream.humor
         ? `<span class="dream-mood mood-${dream.humor}">
             Humor: ${dream.humor}
-            </span>`
+           </span>`
         : ""
     }
-    `;
+  `;
 
-    dreamsContainer.appendChild(card);
-  });
+  dreamsContainer.appendChild(card);
+});
 
   pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
 
