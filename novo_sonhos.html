@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Novo Sonho</title>
+
+  <!-- CSS do seu menu -->
+  <link rel="stylesheet" href="/assets/css/menu.css">
+
+  <style>
+    .form-container {
+      max-width: 700px;
+      margin: 20px auto;
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-left: 6px solid #6a0dad;
+    }
+
+    .form-container h2 {
+      text-align: center;
+      color: #6a0dad;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #6a0dad;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #bfa7d6;
+      font-size: 15px;
+    }
+
+    textarea {
+      resize: vertical;
+      height: 130px;
+    }
+
+    button {
+      width: 100%;
+      background: #6a0dad;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #530b9a;
+    }
+
+    .success-message {
+      background: #d5f5d5;
+      padding: 12px;
+      margin-top: 15px;
+      border-radius: 8px;
+      color: #2d7a2d;
+      border-left: 5px solid #2d7a2d;
+      display: none;
+    }
+  </style>
+
+</head>
+<body>
+
+  <!-- Ícone do menu -->
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="graficos.html">Gráficos</a>
+    <a href="perfil.html">Perfil</a>
+    <a href="sonhos.html">Meus Sonhos</a>
+    <a href="novo-sonho.html"><b>Novo Sonho</b></a>
+  </div>
+
+  <!-- Conteúdo -->
+  <div class="content" id="content">
+    <div class="form-container">
+      <h2>Registrar Novo Sonho</h2>
+
+      <label for="titulo">Título do Sonho</label>
+      <input type="text" id="titulo" placeholder="Ex: Sonhei que estava voando..." />
+
+      <label for="descricao">Descrição do Sonho</label>
+      <textarea id="descricao" placeholder="Descreva seu sonho com detalhes..."></textarea>
+
+      <label for="sentimento">Sentimento Predominante</label>
+      <select id="sentimento">
+        <option value="" disabled selected>Selecione...</option>
+        <option value="bom">Bom</option>
+        <option value="neutro">Neutro</option>
+        <option value="ruim">Ruim</option>
+      </select>
+
+      <button onclick="salvarSonho()">Salvar Sonho</button>
+
+      <div id="successMsg" class="success-message">
+        Sonho salvo com sucesso! 🎉
+      </div>
+    </div>
+  </div>
+
+  <!-- Script do menu -->
+  <script src="/assets/js/menu.js"></script>
+
+  <script>
+    function salvarSonho() {
+      const titulo = document.getElementById("titulo").value.trim();
+      const descricao = document.getElementById("descricao").value.trim();
+      const sentimento = document.getElementById("sentimento").value;
+
+      if (!titulo || !descricao || !sentimento) {
+        alert("Preencha todos os campos!");
+        return;
+      }
+
+      // Aqui depois você troca pela sua API:
+      // fetch("https://sua-api/sonhos", { method: "POST", body: JSON.stringify({titulo, descricao, sentimento}) })
+
+      console.log("Sonho salvo:", { titulo, descricao, sentimento });
+
+      // Mensagem de sucesso
+      const msg = document.getElementById("successMsg");
+      msg.style.display = "block";
+
+      // Limpar campos
+      document.getElementById("titulo").value = "";
+      document.getElementById("descricao").value = "";
+      document.getElementById("sentimento").value = "";
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+ /* Estilo dos cards */
+    .dreams-container {
+      padding: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .dream-card {
+      background: #ffffff;
+      border-left: 6px solid #6a0dad;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .dream-card h3 {
+      margin: 0;
+      color: #6a0dad;
+    }
+
+    .dream-card p {
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    /* Paginação */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin: 25px 0;
+    }
+
+    .pagination button {
+      background: #6a0dad;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .pagination button:disabled {
+      background: #c8b3e2;
+      cursor: default;
+    }
+
+    #pageInfo {
+      font-weight: bold;
+      color: #6a0dad;
+    }
