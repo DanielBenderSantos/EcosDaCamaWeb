@@ -1,61 +1,122 @@
-// Lista de sonhos simulados. Depois você troca pela API real.
-const sonhos = Array.from({ length: 17 }, (_, i) => ({
-    id: i + 1,
-    titulo: `Sonho ${i + 1}`,
-    descricao: "Descrição breve do sonho. Depois isso será substituído pela descrição real salva no banco."
-}));
+const API_URL = "https://ecosdacamaweb.onrender.com";
 
-const container = document.getElementById("dreamsContainer");
-const pageInfo = document.getElementById("pageInfo");
-
+const dreamsContainer = document.getElementById("dreamsContainer");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
+const pageInfo = document.getElementById("pageInfo");
 
-let paginaAtual = 1;
-const itensPorPagina = 10;
+let allDreams = [];
+let currentPage = 1;
+const pageSize = 5; // quantos sonhos por página
 
-// Renderiza os cards
-function renderizarPagina() {
-    container.innerHTML = "";
+function formatarData(dateStr, timeStr) {
+  if (!dateStr && !timeStr) {
+    return "";
+  }
 
-    const inicio = (paginaAtual - 1) * itensPorPagina;
-    const fim = inicio + itensPorPagina;
+  try {
+    // se tiver data/hora separados
+    if (dateStr && timeStr) {
+      return new Date(`${dateStr}T${timeStr}`).toLocaleString("pt-BR", {
+        dateStyle: "short",
+        timeStyle: "short",
+      });
+    }
 
-    const sonhosPagina = sonhos.slice(inicio, fim);
+    // fallback: tenta usar só a data ou created_at
+    return new Date(dateStr || timeStr).toLocaleString("pt-BR", {
+      dateStyle: "short",
+      timeStyle: "short",
+    });
+  } catch {
+    return "";
+  }
+}
 
-    sonhosPagina.forEach(s => {
-    const div = document.createElement("div");
-    div.classList.add("dream-card");
+function renderPage(page) {
+  dreamsContainer.innerHTML = "";
 
-    div.innerHTML = `
-        <h3>${s.titulo}</h3>
-        <p>${s.descricao}</p>
+  if (allDreams.length === 0) {
+    dreamsContainer.innerHTML = `<p style="text-align:center;">Você ainda não registrou nenhum sonho.</p>`;
+    pageInfo.textContent = "";
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+    return;
+  }
+
+  const totalPages = Math.ceil(allDreams.length / pageSize);
+  currentPage = Math.min(Math.max(page, 1), totalPages);
+
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const dreamsToShow = allDreams.slice(startIndex, endIndex);
+
+  dreamsToShow.forEach((dream) => {
+    const card = document.createElement("div");
+    card.classList.add("dream-card");
+
+    const dataFormatada = formatarData(dream.data, dream.hora || dream.created_at);
+
+    card.innerHTML = `
+      <h3>${dream.titulo}</h3>
+      ${dataFormatada ? `<p class="dream-date">${dataFormatada}</p>` : ""}
+      <p class="dream-description">${dream.descricao}</p>
+      ${
+        dream.humor
+          ? `<span class="dream-mood mood-${dream.humor}">
+              Humor: ${dream.humor}
+             </span>`
+          : ""
+      }
     `;
 
-    container.appendChild(div);
+    dreamsContainer.appendChild(card);
+  });
+
+  pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+
+  prevBtn.disabled = currentPage === 1;
+  nextBtn.disabled = currentPage === totalPages;
+}
+
+async function carregarSonhos() {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/dreams`, {
+      headers: {
+        "Authorization": "Bearer " + token,
+      },
     });
 
-    atualizarPaginacao();
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error("Erro ao carregar sonhos:", data);
+      dreamsContainer.innerHTML = `<p style="text-align:center;">Erro ao carregar seus sonhos.</p>`;
+      return;
+    }
+
+    allDreams = Array.isArray(data) ? data : [];
+    renderPage(1);
+  } catch (err) {
+    console.error("Erro de rede ao carregar sonhos:", err);
+    dreamsContainer.innerHTML = `<p style="text-align:center;">Erro de conexão ao carregar seus sonhos.</p>`;
+  }
 }
 
-function atualizarPaginacao() {
-    const totalPaginas = Math.ceil(sonhos.length / itensPorPagina);
+// eventos dos botões de página
+prevBtn.addEventListener("click", () => {
+  renderPage(currentPage - 1);
+});
 
-    pageInfo.textContent = `Página ${paginaAtual} de ${totalPaginas}`;
+nextBtn.addEventListener("click", () => {
+  renderPage(currentPage + 1);
+});
 
-    prevBtn.disabled = paginaAtual === 1;
-    nextBtn.disabled = paginaAtual === totalPaginas;
-}
-
-prevBtn.onclick = () => {
-    paginaAtual--;
-    renderizarPagina();
-};
-
-nextBtn.onclick = () => {
-    paginaAtual++;
-    renderizarPagina();
-};
-
-// Inicializa
-renderizarPagina();
+// inicializa ao carregar a página
+document.addEventListener("DOMContentLoaded", carregarSonhos);

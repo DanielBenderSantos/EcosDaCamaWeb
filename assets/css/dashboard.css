@@ -1,60 +1,55 @@
- /* Estilo dos cards */
-    .dreams-container {
-      padding: 20px;
-      max-width: 700px;
-      margin: 0 auto;
-    }
+.dreams-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
 
-    .dream-card {
-      background: #ffffff;
-      border-left: 6px solid #6a0dad;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
-      animation: fadeIn 0.3s ease;
-    }
+.dream-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
 
-    .dream-card h3 {
-      margin: 0;
-      color: #6a0dad;
-    }
+.dream-card h3 {
+  margin: 0 0 8px;
+  color: #6a0dad;
+}
 
-    .dream-card p {
-      margin-top: 8px;
-      line-height: 1.4;
-    }
+.dream-date {
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 8px;
+}
 
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
+.dream-description {
+  margin-bottom: 8px;
+}
 
-    /* Paginação */
-    .pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 15px;
-      margin: 25px 0;
-    }
+.dream-mood {
+  font-size: 0.85rem;
+  font-weight: bold;
+}
 
-    .pagination button {
-      background: #6a0dad;
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 15px;
-    }
+/* humores */
+.mood-bom {
+  color: #2e7d32;
+}
 
-    .pagination button:disabled {
-      background: #c8b3e2;
-      cursor: default;
-    }
+.mood-neutro {
+  color: #999;
+}
 
-    #pageInfo {
-      font-weight: bold;
-      color: #6a0dad;
-    }
+.mood-ruim {
+  color: #c62828;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}

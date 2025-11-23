@@ -1,12 +1,12 @@
 // backend/routes/dreams.routes.js
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const pool = require("../db"); // mesmo pool que você usa no resto
+const pool = require("../db");
 require("dotenv").config();
 
 const router = express.Router();
 
-// Middleware simples de auth (se quiser, pode reaproveitar o auth.middleware.js que já criamos)
+// middleware de auth simples
 function auth(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
@@ -29,7 +29,7 @@ function auth(req, res, next) {
   }
 }
 
-// POST /dreams  → salvar novo sonho
+// POST /dreams  → salvar novo sonho (já deve estar parecido com isso)
 router.post("/", auth, async (req, res) => {
   try {
     const { titulo, descricao, sentimento } = req.body;
@@ -40,7 +40,7 @@ router.post("/", auth, async (req, res) => {
         .json({ error: "Título e descrição são obrigatórios" });
     }
 
-    const fk_usuario = req.user.id; // id do usuário que vem do token
+    const fk_usuario = req.user.id;
 
     const query = `
       INSERT INTO dreams (fk_usuario, titulo, descricao, humor, created_at, updated_at)
@@ -59,6 +59,27 @@ router.post("/", auth, async (req, res) => {
   } catch (err) {
     console.error("Erro ao salvar sonho:", err);
     return res.status(500).json({ error: "Erro interno ao salvar sonho" });
+  }
+});
+
+// ✅ GET /dreams  → listar sonhos do usuário logado
+router.get("/", auth, async (req, res) => {
+  try {
+    const fk_usuario = req.user.id;
+
+    const query = `
+      SELECT id, fk_usuario, titulo, descricao, humor, data, hora, created_at, updated_at
+      FROM dreams
+      WHERE fk_usuario = $1
+      ORDER BY created_at DESC;
+    `;
+
+    const result = await pool.query(query, [fk_usuario]);
+
+    return res.json(result.rows);
+  } catch (err) {
+    console.error("Erro ao listar sonhos:", err);
+    return res.status(500).json({ error: "Erro interno ao listar sonhos" });
   }
 });
 
