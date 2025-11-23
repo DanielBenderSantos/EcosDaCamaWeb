@@ -44,8 +44,8 @@ router.post("/", auth, async (req, res) => {
     const fk_usuario = req.user.id;
 
     const query = `
-      INSERT INTO dreams (fk_usuario, titulo, descricao, humor, created_at, updated_at)
-      VALUES ($1, $2, $3, $4, NOW(), NOW())
+      INSERT INTO dreams (fk_usuario, titulo, descricao, humor, ativo, created_at, updated_at)
+      VALUES ($1, $2, $3, $4, TRUE, NOW(), NOW())
       RETURNING *;
     `;
 
@@ -63,7 +63,7 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-// GET /dreams  → listar sonhos do usuário logado
+// GET /dreams  → listar sonhos ATIVOS do usuário logado
 router.get("/", auth, async (req, res) => {
   try {
     const fk_usuario = req.user.id;
@@ -72,6 +72,7 @@ router.get("/", auth, async (req, res) => {
       SELECT id, fk_usuario, titulo, descricao, humor, data, hora, created_at, updated_at
       FROM dreams
       WHERE fk_usuario = $1
+        AND ativo = TRUE
       ORDER BY created_at DESC;
     `;
 
@@ -81,6 +82,78 @@ router.get("/", auth, async (req, res) => {
   } catch (err) {
     console.error("Erro ao listar sonhos:", err);
     return res.status(500).json({ error: "Erro interno ao listar sonhos" });
+  }
+});
+
+// PUT /dreams/:id  → editar sonho (somente do dono e ativo)
+router.put("/:id", auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { titulo, descricao, sentimento } = req.body;
+    const fk_usuario = req.user.id;
+
+    if (!titulo || !descricao) {
+      return res
+        .status(400)
+        .json({ error: "Título e descrição são obrigatórios" });
+    }
+
+    const query = `
+      UPDATE dreams
+      SET titulo = $1,
+          descricao = $2,
+          humor = $3,
+          updated_at = NOW()
+      WHERE id = $4
+        AND fk_usuario = $5
+        AND ativo = TRUE
+      RETURNING *;
+    `;
+
+    const values = [titulo, descricao, sentimento || null, id, fk_usuario];
+
+    const result = await pool.query(query, values);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Sonho não encontrado" });
+    }
+
+    return res.json({
+      message: "Sonho atualizado com sucesso",
+      sonho: result.rows[0],
+    });
+  } catch (err) {
+    console.error("Erro ao editar sonho:", err);
+    return res.status(500).json({ error: "Erro interno ao editar sonho" });
+  }
+});
+
+// DELETE /dreams/:id  → soft delete (marca ativo = FALSE)
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const fk_usuario = req.user.id;
+
+    const query = `
+      UPDATE dreams
+      SET ativo = FALSE,
+          updated_at = NOW()
+      WHERE id = $1
+        AND fk_usuario = $2
+        AND ativo = TRUE
+      RETURNING id;
+    `;
+
+    const result = await pool.query(query, [id, fk_usuario]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Sonho não encontrado" });
+    }
+
+    return res.json({ message: "Sonho removido com sucesso" });
+  } catch (err) {
+    console.error("Erro ao remover sonho:", err);
+    return res.status(500).json({ error: "Erro interno ao remover sonho" });
   }
 });
 
