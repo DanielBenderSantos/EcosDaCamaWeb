@@ -1,18 +1,35 @@
-document.getElementById("loginForm").addEventListener("submit", function (evento) {
-  evento.preventDefault(); // impede o envio padrão do form
+// URL do backend no Render
+const API_URL = "https://ecosdacamaweb.onrender.com";
 
-  // opcional: pegue os valores
-  const email = document.getElementById("email").value;
-  const senha = document.getElementById("senha").value;
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  // aqui você pode fazer validação, consulta na API, etc.
-  // exemplo simples:
-  if (email === "teste@teste.com" && senha === "123") {
+    const email = document.getElementById("email").value.trim();
+    const senha = document.getElementById("senha").value.trim();
 
-    // 🔥 redireciona
-    window.location.href = "dashboard.html";
+    try {
+        const response = await fetch(`${API_URL}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, senha })
+        });
 
-  } else {
-    alert("Login inválido!");
-  }
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.error || "Erro ao fazer login");
+            return;
+        }
+
+        // salva o token para acessar rotas protegidas
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        // redirecionar
+        window.location.href = "dashboard.html";
+
+    } catch (err) {
+        console.error("Erro:", err);
+        alert("Erro ao conectar com o servidor");
+    }
 });
