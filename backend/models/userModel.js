@@ -1,5 +1,5 @@
 // backend/models/userModel.js
-const pool = require("../db");
+const pool = require("../db"); // 👈 de models para db é ../db
 
 async function createUser({ nome, email, password_hash }) {
   const query = `
