@@ -12,21 +12,48 @@ const pageSize = 5;
 function formatarData(dateStr, timeStr) {
   if (!dateStr && !timeStr) return "";
 
-  try {
-    if (dateStr && timeStr) {
-      return new Date(`${dateStr}T${timeStr}`).toLocaleString("pt-BR", {
-        dateStyle: "short",
-        timeStyle: "short",
-      });
-    }
-
-    return new Date(dateStr || timeStr).toLocaleString("pt-BR", {
-      dateStyle: "short",
-      timeStyle: "short",
-    });
-  } catch {
-    return "";
+  // Caso o backend retorne created_at completo, usamos ele
+  if (!dateStr && typeof timeStr === "string" && timeStr.includes("T")) {
+    const d = new Date(timeStr);
+    return isNaN(d.getTime())
+      ? ""
+      : d.toLocaleString("pt-BR", {
+          dateStyle: "short",
+          timeStyle: "short",
+        });
   }
+
+  // Se tiver date e time (separados)
+  if (dateStr && timeStr) {
+    const d = new Date(`${dateStr}T${timeStr}`);
+    return isNaN(d.getTime())
+      ? ""
+      : d.toLocaleString("pt-BR", {
+          dateStyle: "short",
+          timeStyle: "short",
+        });
+  }
+
+  // Se tiver só a data
+  if (dateStr) {
+    const d = new Date(dateStr);
+    return isNaN(d.getTime())
+      ? ""
+      : d.toLocaleDateString("pt-BR");
+  }
+
+  // Se tiver só o created_at/hora combinado
+  if (timeStr) {
+    const d = new Date(timeStr);
+    return isNaN(d.getTime())
+      ? ""
+      : d.toLocaleString("pt-BR", {
+          dateStyle: "short",
+          timeStyle: "short",
+        });
+  }
+
+  return "";
 }
 
 function renderPage(page) {
@@ -52,7 +79,8 @@ function renderPage(page) {
     const card = document.createElement("div");
     card.classList.add("dream-card");
 
-    const dataFormatada = formatarData(dream.data, dream.hora || dream.created_at);
+    const dataFormatada = formatarData(dream.data, dream.hora, dream.created_at);
+
 
     card.innerHTML = `
       <h3>${dream.titulo}</h3>
