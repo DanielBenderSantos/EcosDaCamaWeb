@@ -99,11 +99,12 @@ async function interpretarSonho() {
     const response = await fetch(`${API_URL}/api/interpretar`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ texto })
+      body: JSON.stringify({ texto }),
     });
 
     const data = await response.json();
-    interpretacaoBox.value = data.interpretacao;
+    interpretacaoBox.value =
+      data?.interpretacao || "Não veio nenhuma interpretação na resposta.";
   } catch (error) {
     interpretacaoBox.value = "❌ Erro ao interpretar o sonho.";
     console.log(error);
