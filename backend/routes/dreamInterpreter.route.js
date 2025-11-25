@@ -14,7 +14,8 @@ router.post("/interpretar", async (req, res) => {
   }
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+
 
     const prompt = `
 Você é um intérprete de sonhos empático.
