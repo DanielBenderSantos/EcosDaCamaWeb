@@ -103,10 +103,18 @@ async function interpretarSonho() {
     });
 
     const data = await response.json();
+
+    if (!response.ok) {
+      interpretacaoBox.value =
+        data?.error || "❌ Erro ao interpretar o sonho.";
+      return;
+    }
+
     interpretacaoBox.value =
       data?.interpretacao || "Não veio nenhuma interpretação na resposta.";
   } catch (error) {
-    interpretacaoBox.value = "❌ Erro ao interpretar o sonho.";
-    console.log(error);
+    console.error(error);
+    interpretacaoBox.value =
+      "❌ Erro ao interpretar o sonho (falha na conexão).";
   }
 }

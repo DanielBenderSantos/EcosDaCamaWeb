@@ -1,8 +1,10 @@
 // routes/dreamInterpreter.route.js
 
 const express = require("express");
-// No Node 18+ (Render usa Node 22), o fetch já é global. Não precisa de node-fetch.
 const router = express.Router();
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 router.post("/interpretar", async (req, res) => {
   const { texto } = req.body;
@@ -12,19 +14,23 @@ router.post("/interpretar", async (req, res) => {
   }
 
   try {
-    const response = await fetch("https://api.dreaminterpreter.app/api/interpreter", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ dream: texto }),
-    });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    const data = await response.json();
+    const prompt = `
+Você é um intérprete de sonhos empático.
+Interprete o seguinte sonho em português, em 2–4 parágrafos curtos.
+Foque em simbolismo emocional, possíveis significados psicológicos e mensagens positivas.
 
-    return res.json({
-      interpretacao: data?.interpretation || "Sem interpretação disponível.",
-    });
+Sonho: "${texto}"
+    `;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const interpretacao = response.text();
+
+    return res.json({ interpretacao });
   } catch (error) {
-    console.error("Erro ao chamar API externa de interpretação:", error);
+    console.error("Erro ao chamar Gemini:", error);
     return res.status(500).json({ error: "Erro ao interpretar o sonho." });
   }
 });
