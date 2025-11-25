@@ -96,18 +96,16 @@ async function interpretarSonho() {
   interpretacaoBox.value = "Interpretando sonho... aguarde ⏳";
 
   try {
-    const response = await fetch("https://api.dreaminterpreter.app/api/interpreter", {
+    const response = await fetch("http://localhost:3000/api/interpretar", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ dream: texto })
+      body: JSON.stringify({ texto })
     });
 
     const data = await response.json();
-
-    interpretacaoBox.value =
-      data?.interpretation || "Não foi possível interpretar o sonho.";
+    interpretacaoBox.value = data.interpretacao;
   } catch (error) {
     interpretacaoBox.value = "❌ Erro ao interpretar o sonho.";
-    console.error(error);
+    console.log(error);
   }
 }
