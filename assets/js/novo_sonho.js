@@ -83,3 +83,31 @@ async function salvarSonho() {
     }
   }
 }
+
+async function interpretarSonho() {
+  const texto = document.getElementById("descricao").value.trim();
+  const interpretacaoBox = document.getElementById("interpretacao");
+
+  if (!texto) {
+    interpretacaoBox.value = "⚠️ Escreva o sonho primeiro.";
+    return;
+  }
+
+  interpretacaoBox.value = "Interpretando sonho... aguarde ⏳";
+
+  try {
+    const response = await fetch("https://api.dreaminterpreter.app/api/interpreter", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ dream: texto })
+    });
+
+    const data = await response.json();
+
+    interpretacaoBox.value =
+      data?.interpretation || "Não foi possível interpretar o sonho.";
+  } catch (error) {
+    interpretacaoBox.value = "❌ Erro ao interpretar o sonho.";
+    console.error(error);
+  }
+}

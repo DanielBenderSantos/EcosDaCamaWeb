@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Novo Sonho</title>
 
-  <!-- CSS do seu menu -->
+  <!-- CSS do menu -->
   <link rel="stylesheet" href="./assets/css/menu.css">
   <link rel="stylesheet" href="./assets/css/novo_sonho.css">
-
 
 </head>
 <body>
@@ -44,8 +43,15 @@
         <option value="ruim">Ruim</option>
       </select>
 
-      <button id="salvarBtn" onclick="salvarSonho()">Salvar Sonho</button>
+      <!-- ===== NOVA ÁREA DE INTERPRETAÇÃO ===== -->
 
+      <button id="interpretarBtn" class="espacado" onclick="interpretarSonho()">Interpretar Sonho 🧠</button>
+
+      <label for="interpretacao">Significado do Sonho</label>
+      <textarea id="interpretacao" disabled placeholder="A interpretação aparecerá aqui..."></textarea>
+
+      <!-- ===== BOTÃO FINAL ===== -->
+      <button id="salvarBtn" class="espacado" onclick="salvarSonho()">Salvar Sonho</button>
 
       <div id="successMsg" class="success-message">
         Sonho salvo com sucesso! 🎉
@@ -53,15 +59,10 @@
     </div>
   </div>
 
-  <!-- Script do menu -->
+  <!-- Scripts -->
   <script src="./assets/js/menu.js"></script>
   <script src="./assets/js/novo_sonho.js"></script>
   <script src="./assets/js/logout.js"></script>
-  
-
-  <script>
-    
-  </script>
 
 </body>
 </html>

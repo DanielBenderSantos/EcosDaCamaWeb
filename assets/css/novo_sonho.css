@@ -59,3 +59,8 @@ button:hover {
     border-left: 5px solid #2d7a2d;
     display: none;
 }
+/* Aplica margem nos botões para afastar dos textos */
+.espacado {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
