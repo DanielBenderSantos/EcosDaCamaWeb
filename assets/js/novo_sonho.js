@@ -96,7 +96,7 @@ async function interpretarSonho() {
   interpretacaoBox.value = "Interpretando sonho... aguarde ⏳";
 
   try {
-    const response = await fetch("http://localhost:3000/api/interpretar", {
+    const response = await fetch(`${API_URL}/api/interpretar`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ texto })
