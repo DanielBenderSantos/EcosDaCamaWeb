@@ -1,5 +1,3 @@
-// routes/dreamInterpreter.route.js
-
 const express = require("express");
 const router = express.Router();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -9,18 +7,26 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 router.post("/interpretar", async (req, res) => {
   const { texto } = req.body;
 
-  if (!texto) {
+  if (!texto || !texto.trim()) {
     return res.status(400).json({ error: "Texto do sonho é obrigatório." });
   }
 
   try {
-   const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite-preview-09-2025" });
+    // O modelo exato que FUNCIONA na sua chave:
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash-lite-preview-09-2025",
+    });
 
+    const prompt = `
+Você é um intérprete de sonhos sensível e acolhedor.
 
-    const prompt = `d
-Você é um intérprete de sonhos empático.
-Interprete o seguinte sonho em português, em 2–4 parágrafos curtos.
-Foque em simbolismo emocional, possíveis significados psicológicos e mensagens positivas.
+Interprete o seguinte sonho em português, explicando:
+
+- o simbolismo emocional,
+- o possível significado psicológico,
+- e uma mensagem positiva ou de reflexão.
+
+Seja claro, empático e use 2 a 4 parágrafos.
 
 Sonho: "${texto}"
     `;
@@ -29,10 +35,10 @@ Sonho: "${texto}"
     const response = await result.response;
     const interpretacao = response.text();
 
-    return res.json({ interpretacao });
+    res.json({ interpretacao });
   } catch (error) {
     console.error("Erro ao chamar Gemini:", error);
-    return res.status(500).json({ error: "Erro ao interpretar o sonho." });
+    res.status(500).json({ error: "Erro ao interpretar o sonho." });
   }
 });
 

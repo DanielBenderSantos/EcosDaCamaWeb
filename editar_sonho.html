@@ -41,7 +41,20 @@
         <option value="ruim">Ruim</option>
       </select>
 
-      <button onclick="atualizarSonho()">Salvar Alterações</button>
+      <!-- Área de interpretação (mesmo esquema da tela de novo sonho) -->
+      <button id="interpretarBtn" class="espacado" onclick="interpretarSonho()">
+        Interpretar Sonho 🧠
+      </button>
+
+      <label for="interpretacao">Significado do Sonho</label>
+      <textarea
+        id="interpretacao"
+        disabled
+        placeholder="A interpretação aparecerá aqui..."
+      ></textarea>
+
+      <!-- Botão final: salvar alterações -->
+      <button class="espacado" onclick="atualizarSonho()">Salvar Alterações</button>
 
       <div id="successMsg" class="success-message">
         Sonho atualizado com sucesso! 🎉

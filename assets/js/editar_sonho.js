@@ -49,6 +49,12 @@ async function carregarSonho() {
       select.value = "";
     }
 
+    // Opcional: limpa/zera a área de interpretação ao carregar
+    const interpretacaoBox = document.getElementById("interpretacao");
+    if (interpretacaoBox) {
+      interpretacaoBox.value = "";
+    }
+
   } catch (err) {
     console.error("Erro ao carregar sonho:", err);
     alert("Erro de conexão ao carregar sonho");
@@ -107,6 +113,42 @@ async function atualizarSonho() {
   } catch (err) {
     console.error("Erro ao atualizar sonho:", err);
     alert("Erro de conexão ao atualizar sonho");
+  }
+}
+
+// 🚀 Nova função: interpretar o sonho usando sua rota /api/interpretar (Gemini 2.5)
+async function interpretarSonho() {
+  const texto = document.getElementById("descricao").value.trim();
+  const interpretacaoBox = document.getElementById("interpretacao");
+
+  if (!texto) {
+    interpretacaoBox.value = "⚠️ Escreva o sonho primeiro.";
+    return;
+  }
+
+  interpretacaoBox.value = "Interpretando sonho... aguarde ⏳";
+
+  try {
+    const response = await fetch(`${API_URL}/api/interpretar`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ texto }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      interpretacaoBox.value =
+        data?.error || "❌ Erro ao interpretar o sonho.";
+      return;
+    }
+
+    interpretacaoBox.value =
+      data?.interpretacao || "Não foi possível gerar a interpretação.";
+  } catch (error) {
+    console.error("Erro ao interpretar sonho:", error);
+    interpretacaoBox.value =
+      "❌ Erro ao interpretar o sonho (falha na conexão).";
   }
 }
 
