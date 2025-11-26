@@ -14,10 +14,10 @@ router.post("/interpretar", async (req, res) => {
   }
 
   try {
-   const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-001" });
 
 
-    const prompt = `
+    const prompt = `d
 Você é um intérprete de sonhos empático.
 Interprete o seguinte sonho em português, em 2–4 parágrafos curtos.
 Foque em simbolismo emocional, possíveis significados psicológicos e mensagens positivas.
