@@ -42,21 +42,18 @@ async function carregarSonho() {
     // Preenche os campos
     document.getElementById("titulo").value = data.titulo || "";
     document.getElementById("descricao").value = data.descricao || "";
+
     const select = document.getElementById("sentimento");
     if (data.humor) {
       select.value = data.humor;
     } else {
       select.value = "";
     }
-    if (data.significado) {
-      const interpretacaoBox = document.getElementById("interpretacao");
-    if (interpretacaoBox) interpretacaoBox.value = data.significado;
-    }
 
-    // Opcional: limpa/zera a área de interpretação ao carregar
+    // 🔹 Preenche o significado, se existir
     const interpretacaoBox = document.getElementById("interpretacao");
     if (interpretacaoBox) {
-      interpretacaoBox.value = "";
+      interpretacaoBox.value = data.significado || "";
     }
 
   } catch (err) {
