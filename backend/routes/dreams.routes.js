@@ -33,7 +33,7 @@ function auth(req, res, next) {
 // POST /dreams  → salvar novo sonho
 router.post("/", auth, async (req, res) => {
   try {
-    const { titulo, descricao, sentimento } = req.body;
+    const { titulo, descricao, sentimento, significado } = req.body;
 
     if (!titulo || !descricao) {
       return res
@@ -44,12 +44,27 @@ router.post("/", auth, async (req, res) => {
     const fk_usuario = req.user.id;
 
     const query = `
-      INSERT INTO dreams (fk_usuario, titulo, descricao, humor, ativo, created_at, updated_at)
-      VALUES ($1, $2, $3, $4, TRUE, NOW(), NOW())
+      INSERT INTO dreams (
+        fk_usuario,
+        titulo,
+        descricao,
+        humor,
+        significado,
+        ativo,
+        created_at,
+        updated_at
+      )
+      VALUES ($1, $2, $3, $4, $5, TRUE, NOW(), NOW())
       RETURNING *;
     `;
 
-    const values = [fk_usuario, titulo, descricao, sentimento || null];
+    const values = [
+      fk_usuario,
+      titulo,
+      descricao,
+      sentimento || null,
+      significado || null,
+    ];
 
     const result = await pool.query(query, values);
 
@@ -69,7 +84,17 @@ router.get("/", auth, async (req, res) => {
     const fk_usuario = req.user.id;
 
     const query = `
-      SELECT id, fk_usuario, titulo, descricao, humor, data, hora, created_at, updated_at
+      SELECT
+        id,
+        fk_usuario,
+        titulo,
+        descricao,
+        humor,
+        significado,
+        data,
+        hora,
+        created_at,
+        updated_at
       FROM dreams
       WHERE fk_usuario = $1
         AND ativo = TRUE
@@ -92,7 +117,17 @@ router.get("/:id", auth, async (req, res) => {
     const fk_usuario = req.user.id;
 
     const query = `
-      SELECT id, fk_usuario, titulo, descricao, humor, data, hora, created_at, updated_at
+      SELECT
+        id,
+        fk_usuario,
+        titulo,
+        descricao,
+        humor,
+        significado,
+        data,
+        hora,
+        created_at,
+        updated_at
       FROM dreams
       WHERE id = $1
         AND fk_usuario = $2
@@ -111,11 +146,12 @@ router.get("/:id", auth, async (req, res) => {
     return res.status(500).json({ error: "Erro interno ao buscar sonho" });
   }
 });
+
 // PUT /dreams/:id  → editar sonho (somente do dono e ativo)
 router.put("/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
-    const { titulo, descricao, sentimento } = req.body;
+    const { titulo, descricao, sentimento, significado } = req.body;
     const fk_usuario = req.user.id;
 
     if (!titulo || !descricao) {
@@ -126,17 +162,26 @@ router.put("/:id", auth, async (req, res) => {
 
     const query = `
       UPDATE dreams
-      SET titulo = $1,
-          descricao = $2,
-          humor = $3,
-          updated_at = NOW()
-      WHERE id = $4
-        AND fk_usuario = $5
+      SET
+        titulo = $1,
+        descricao = $2,
+        humor = $3,
+        significado = $4,
+        updated_at = NOW()
+      WHERE id = $5
+        AND fk_usuario = $6
         AND ativo = TRUE
       RETURNING *;
     `;
 
-    const values = [titulo, descricao, sentimento || null, id, fk_usuario];
+    const values = [
+      titulo,
+      descricao,
+      sentimento || null,
+      significado || null,
+      id,
+      fk_usuario,
+    ];
 
     const result = await pool.query(query, values);
 

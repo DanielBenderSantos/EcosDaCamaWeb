@@ -48,6 +48,10 @@ async function carregarSonho() {
     } else {
       select.value = "";
     }
+    if (data.significado) {
+      const interpretacaoBox = document.getElementById("interpretacao");
+    if (interpretacaoBox) interpretacaoBox.value = data.significado;
+    }
 
     // Opcional: limpa/zera a área de interpretação ao carregar
     const interpretacaoBox = document.getElementById("interpretacao");
@@ -74,6 +78,8 @@ async function atualizarSonho() {
   const titulo = document.getElementById("titulo").value.trim();
   const descricao = document.getElementById("descricao").value.trim();
   const sentimento = document.getElementById("sentimento").value;
+  const significadoEl = document.getElementById("interpretacao");
+const significado = significadoEl ? significadoEl.value.trim() : "";
 
   if (!titulo || !descricao) {
     alert("Preencha título e descrição.");
@@ -91,6 +97,7 @@ async function atualizarSonho() {
         titulo,
         descricao,
         sentimento,
+        significado,
       }),
     });
 

@@ -13,7 +13,8 @@ async function salvarSonho() {
   const titulo = document.getElementById("titulo").value.trim();
   const descricao = document.getElementById("descricao").value.trim();
   const sentimento = document.getElementById("sentimento").value;
-
+  const significadoEl = document.getElementById("interpretacao");
+  const significado = significadoEl ? significadoEl.value.trim() : "";
   if (!titulo || !descricao) {
     alert("Por favor, preencha título e descrição.");
     return;
@@ -46,6 +47,7 @@ async function salvarSonho() {
         titulo,
         descricao,
         sentimento,
+        significado,
       }),
     });
 
@@ -65,6 +67,7 @@ async function salvarSonho() {
     document.getElementById("titulo").value = "";
     document.getElementById("descricao").value = "";
     document.getElementById("sentimento").value = "";
+    if (significadoEl) significadoEl.value = "";
 
     // Some depois de 3s
     setTimeout(() => {
