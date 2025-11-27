@@ -7,7 +7,7 @@
 }
 
 .dream-card {
-  background: #ffffff;
+  background:  #ffffff17;
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
@@ -15,17 +15,19 @@
 
 .dream-card h3 {
   margin: 0 0 8px;
-  color: #6a0dad;
+  color: var(--primary-color,#6a0dad);
 }
 
 .dream-date {
   font-size: 0.85rem;
-  color: #777;
+  color: var(--text-color , #000);
   margin-bottom: 8px;
 }
 
 .dream-description {
   margin-bottom: 8px;
+  color: var(--text-color , #000);
+
 }
 
 .dream-mood {
@@ -69,7 +71,7 @@
 }
 
 .dream-actions .edit-btn {
-  background-color: #6a0dad;
+  background-color:var(--primary-color,#6a0dad);
   color: #fff;
 }
 

@@ -1,0 +1,67 @@
+/* Tema padrão (light) */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --primary-color: #6b3fa0;
+    --secondary-color: #8d5cd6;
+}
+
+/* Tema 1 — Roxo Moderna */
+.theme-purple {
+    --bg-color: #f7f2fc;
+    --text-color: #2d1b3d;
+    --primary-color: #7b49cc;
+    --secondary-color: #b892ff;
+}
+
+/* Tema 2 — Neon Gamer */
+.theme-gamer {
+    --bg-color: #050b12;
+    --text-color: #dffbff;
+    --primary-color: #00eaff;
+    --secondary-color: #007a99;
+}
+
+/* Tema 3 — Por do Sol */
+.theme-sunset {
+    --bg-color: #fff5f0;
+    --text-color: #422000;
+    --primary-color: #ff7b54;
+    --secondary-color: #ffb28a;
+}
+
+/* Tema 4 — Ocean Breeze */
+.theme-ocean {
+    --bg-color: #eef7ff;
+    --text-color: #0c2940;
+    --primary-color: #3e8ede;
+    --secondary-color: #8bc4ff;
+}
+
+/* Tema 5 — Futurista Dark Violet */
+.theme-future {
+    --bg-color: #12041f;
+    --text-color: #f2e6ff;
+    --primary-color: #c084fc;
+    --secondary-color: #e9c6ff;
+}
+
+/* ESTILO GERAL DO SITE USA AS VARIÁVEIS */
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    transition: 0.3s ease;
+}
+
+.theme-select {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 8px;
+    border-radius: 8px;
+    background: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+}

@@ -5,12 +5,12 @@
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    border-left: 6px solid #6a0dad;
+    border-left: 6px solid var(--primary-color,#6a0dad);
 }
 
 .form-container h2 {
     text-align: center;
-    color: #6a0dad;
+    color: var(--primary-color,#6a0dad);
     margin-bottom: 20px;
 }
 
@@ -18,7 +18,7 @@ label {
     display: block;
     margin-bottom: 6px;
     font-weight: bold;
-    color: #6a0dad;
+    color: var(--primary-color,#6a0dad);
 }
 
 input, textarea, select {
@@ -26,7 +26,7 @@ input, textarea, select {
     padding: 12px;
     margin-bottom: 15px;
     border-radius: 8px;
-    border: 1px solid #bfa7d6;
+    border: 1px solid var(--secondary-color,#bfa7d6);
     font-size: 15px;
 }
 
@@ -37,7 +37,7 @@ textarea {
 
 button {
     width: 100%;
-    background: #6a0dad;
+    background: var(--primary-color,#6a0dad);
     color: white;
     padding: 12px;
     border: none;
@@ -47,7 +47,7 @@ button {
 }
 
 button:hover {
-    background: #530b9a;
+    background:var(--secondary-color,#bfa7d6);
 }
 
 .success-message {

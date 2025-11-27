@@ -2,21 +2,37 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Perfil - Ecos da Cama</title>
-<link rel="stylesheet" href="./assets/css/menu.css">
+  <title>Perfil - Ecos da Cama</title>
+  
+  <link rel="stylesheet" href="./assets/css/menu.css">
+  <link rel="stylesheet" href="./assets/css/temas.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 <body>
     <div class="menu-btn" onclick="toggleMenu()">☰</div>
     <div class="sidebar" id="sidebar">
-    <a href="dashboard.html">Dashboard</a>
-    <a href="insights.html">Gráficos</a>
-    <a href="perfil.html">Perfil</a>
-    <a href="novo_sonho.html">Novo Sonho</a>
-    <a href="#" onclick="logout()" class="logout-btn">Sair</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="insights.html">Gráficos</a>
+      <a href="perfil.html">Perfil</a>
+      <a href="novo_sonho.html">Novo Sonho</a>
+      <a href="#" onclick="logout()" class="logout-btn">Sair</a>
+    </div>
+  
+<select id="theme-selector" class="theme-select">
+    <option value="">Padrão</option>
+    <option value="theme-purple">Roxo Moderna</option>
+    <option value="theme-gamer">Neon Gamer</option>
+    <option value="theme-sunset">Por do Sol</option>
+    <option value="theme-ocean">Ocean Breeze</option>
+    <option value="theme-future">Futurista Dark Violet</option>
+</select>
 
-  </div>
 <script src="./assets//js/menu.js"></script>
 <script src="./assets/js/logout.js"></script>
+<script src="./assets/js/temas.js" defer></script>
+
+
 
 </body>
 </html>

@@ -21,8 +21,8 @@ body {
       left: -250px;
       width: 250px;
       height: 100%;
-      background-color: #6b3fa0;
-      color: #fff;
+      background-color: var(--primary-color ,#6b3fa0);
+      color: var(--text-color , #fff);
       padding-top: 60px;
       transition: 0.3s ease;
       z-index: 150;
@@ -48,10 +48,10 @@ body {
       display: block;
       padding: 15px 20px;
       font-size: 18px;
-      color: #fff;
+      color: var(--text-color , #fff);
       text-decoration: none;
     }
 
     .sidebar a:hover {
-      background-color: #8d5cd6;
+      background-color: var(--secondary-color ,#8d5cd6);
     }
