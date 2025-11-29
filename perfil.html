@@ -1,38 +1,88 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
   <title>Perfil - Ecos da Cama</title>
-  
+
   <link rel="stylesheet" href="./assets/css/menu.css">
   <link rel="stylesheet" href="./assets/css/temas.css">
+  <link rel="stylesheet" href="./assets/css/perfil.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 </head>
 <body>
-    <div class="menu-btn" onclick="toggleMenu()">☰</div>
-    <div class="sidebar" id="sidebar">
-      <a href="dashboard.html">Dashboard</a>
-      <a href="insights.html">Gráficos</a>
-      <a href="perfil.html">Perfil</a>
-      <a href="novo_sonho.html">Novo Sonho</a>
-      <a href="#" onclick="logout()" class="logout-btn">Sair</a>
-    </div>
-  
-<select id="theme-selector" class="theme-select">
+  <!-- Botão do menu lateral -->
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="insights.html">Gráficos</a>
+    <a href="perfil.html" class="active">Perfil</a>
+    <a href="novo_sonho.html">Novo Sonho</a>
+    <a href="#" onclick="logout()" class="logout-btn">Sair</a>
+  </div>
+
+  <!-- Seletor de tema -->
+  <select id="theme-selector" class="theme-select">
     <option value="">Padrão</option>
     <option value="theme-purple">Roxo Moderna</option>
     <option value="theme-gamer">Neon Gamer</option>
     <option value="theme-sunset">Por do Sol</option>
     <option value="theme-ocean">Ocean Breeze</option>
     <option value="theme-future">Futurista Dark Violet</option>
-</select>
+  </select>
 
-<script src="./assets//js/menu.js"></script>
-<script src="./assets/js/logout.js"></script>
-<script src="./assets/js/temas.js" defer></script>
+  <!-- Conteúdo principal da página de perfil -->
+  <main class="perfil-page">
+    <div class="perfil-card">
+      <div class="perfil-header">
+        <div class="perfil-avatar">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div>
+          <h2>Meu Perfil</h2>
+          <p class="perfil-subtitle">Gerencie seus dados de acesso ao Ecos da Cama</p>
+        </div>
+      </div>
 
+      <form id="perfilForm" class="perfil-form">
+        <div class="input-group">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" placeholder="Seu nome" required>
+        </div>
 
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="seu@email.com" required>
+        </div>
 
+        <hr class="perfil-divider">
+
+        <p class="perfil-section-title">Alterar senha (opcional)</p>
+
+        <div class="input-group">
+          <label for="senhaAtual">Senha atual</label>
+          <input type="password" id="senhaAtual" placeholder="Digite sua senha atual">
+        </div>
+
+        <div class="input-group">
+          <label for="novaSenha">Nova senha</label>
+          <input type="password" id="novaSenha" placeholder="Nova senha">
+        </div>
+
+        <div class="input-group">
+          <label for="confirmarSenha">Confirmar nova senha</label>
+          <input type="password" id="confirmarSenha" placeholder="Confirme a nova senha">
+        </div>
+
+        <button type="submit" class="btn btn-salvar">Salvar alterações</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="./assets/js/menu.js"></script>
+  <script src="./assets/js/logout.js"></script>
+  <script src="./assets/js/temas.js" defer></script>
+  <script src="./assets/js/perfil.js"></script>
 </body>
 </html>

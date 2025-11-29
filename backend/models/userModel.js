@@ -1,5 +1,5 @@
 // backend/models/userModel.js
-const pool = require("../db"); // 👈 de models para db é ../db
+const pool = require("../db");
 
 async function createUser({ nome, email, password_hash }) {
   const query = `
@@ -20,8 +20,24 @@ async function findUserByEmail(email) {
 }
 
 async function findUserById(id) {
-  const query = "SELECT id, nome, email, created_at FROM users WHERE id = $1";
+  // Agora traz todas as colunas, inclusive password_hash
+  const query = "SELECT * FROM users WHERE id = $1";
   const result = await pool.query(query, [id]);
+  return result.rows[0];
+}
+
+async function updateUser({ id, nome, email, password_hash }) {
+  const query = `
+    UPDATE users
+    SET nome = $1,
+        email = $2,
+        password_hash = $3
+    WHERE id = $4
+    RETURNING id, nome, email, created_at
+  `;
+  const values = [nome, email, password_hash, id];
+
+  const result = await pool.query(query, values);
   return result.rows[0];
 }
 
@@ -29,4 +45,5 @@ module.exports = {
   createUser,
   findUserByEmail,
   findUserById,
+  updateUser,
 };
