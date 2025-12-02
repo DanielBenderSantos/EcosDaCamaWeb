@@ -18,7 +18,10 @@ themeSelector.addEventListener('change', () => {
         'theme-gamer',
         'theme-sunset',
         'theme-ocean',
-        'theme-future'
+        'theme-future',
+        'theme-lucid-dream',
+        'theme-twilight',
+        'theme-ethereal'
     );
 
     // Adiciona o escolhido

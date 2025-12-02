@@ -40,10 +40,34 @@
 
 /* Tema 5 — Futurista Dark Violet */
 .theme-future {
-    --bg-color: #12041f;
+--bg-color: #12041f;
     --text-color: #f2e6ff;
-    --primary-color: #c084fc;
-    --secondary-color: #e9c6ff;
+    --primary-color: #a733ff;
+    --secondary-color: #4c2b66;
+}
+
+/* Tema 6 — Sonho Lúcido */
+.theme-lucid-dream {
+    --bg-color: #f0f4f8;
+    --text-color: #1f344f;
+    --primary-color: #4a90e2;
+    --secondary-color: #e0e7f1;
+}
+
+/* Tema 7 — Crepúsculo */
+.theme-twilight {
+    --bg-color: #1a1023;
+    --text-color: #f0e6fa;
+    --primary-color: #e84545;
+    --secondary-color: #4a385b;
+}
+
+/* Tema 8 — Ethereal */
+.theme-ethereal {
+    --bg-color: #fcf5f8;
+    --text-color: #635a68;
+    --primary-color: #a37bba;
+    --secondary-color: #f7ebf2;
 }
 
 /* ESTILO GERAL DO SITE USA AS VARIÁVEIS */
