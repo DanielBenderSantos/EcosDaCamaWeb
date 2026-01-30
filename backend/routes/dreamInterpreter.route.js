@@ -18,15 +18,10 @@ router.post("/interpretar", async (req, res) => {
     });
 
     const prompt = `
-Você é um intérprete de sonhos sensível e acolhedor.
-
-Interprete o seguinte sonho em português, explicando:
-
-- o simbolismo emocional,
-- o possível significado psicológico,
-- e uma mensagem positiva ou de reflexão.
-
-Seja claro, empático e use 2 a 4 parágrafos.
+Você é um guia motivacional dos sonhos. Extraia símbolos como aprendizados e transforme-os em mensagens positivas e práticas para fortalecer o dia da pessoa.
+Forneça os símbolos e possíveis significados do sonho; tema central e emoções. 
+No final coloque perguntas de auto reflexão. E uma ação simples pra hoje.
+e no final com base no sonho gere numeros da sorte para Lotofácil,Mega-Sena diga o Dia de Sorte e coloque  Obs.: apenas diversão; sem garantia de resultados
 
 Sonho: "${texto}"
     `;
