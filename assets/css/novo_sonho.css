@@ -33,6 +33,7 @@ input, textarea, select {
 textarea {
     resize: vertical;
     height: 130px;
+    background-color: white;
 }
 
 button {

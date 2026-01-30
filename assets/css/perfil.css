@@ -10,14 +10,14 @@
 
 /* Card central */
 .perfil-card {
-  background:  #ffffff17;
+  background: #ffffff17;
   border-radius: 18px;
   box-shadow: 0 14px 35px rgba(0, 0, 0, 0.14);
   max-width: 480px;
   width: 100%;
   padding: 2rem 2.2rem;
   box-sizing: border-box;
-  border-left: 6px solid var(--primary-color,#6a0dad);
+  border-left: 6px solid var(--primary-color, #6a0dad);
 
 }
 
@@ -27,18 +27,18 @@
   align-items: center;
   gap: 1rem;
   margin-bottom: 1.5rem;
-  
+
 }
 
 .perfil-avatar {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg,var(--primary-color,#6a0dad),var(--secondary-color,#6a0dad));
+  background: linear-gradient(135deg, var(--primary-color, #6a0dad), var(--secondary-color, #6a0dad));
   display: flex;
   align-items: center;
   justify-content: center;
-  color:var( --text-color,#6a0dad);
+  color: var(--text-color, #6a0dad);
   font-size: 1.8rem;
 
 }
@@ -48,7 +48,7 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
-  
+
 }
 
 .input-group input {
@@ -82,7 +82,7 @@
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
-  background: linear-gradient(135deg,var(--primary-color,#6a0dad),var(--secondary-color,#6a0dad));
+  background: linear-gradient(135deg, var(--primary-color, #6a0dad), var(--secondary-color, #6a0dad));
   color: #ffffff;
   margin-top: 1rem;
 }

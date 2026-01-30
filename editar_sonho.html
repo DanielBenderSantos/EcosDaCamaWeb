@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Editar Sonho</title>
-
   <link rel="stylesheet" href="./assets/css/menu.css">
   <link rel="stylesheet" href="./assets/css/novo_sonho.css">
   <link rel="stylesheet" href="./assets/css/temas.css">
-
 </head>
+
 <body>
 
   <!-- Ícone do menu -->
@@ -17,11 +17,11 @@
 
   <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
-    <a href="dashboard.html">Dashboard</a>
-    <a href="insights.html">Gráficos</a>
+    <a href="index.html">Home</a>
+
     <a href="perfil.html">Perfil</a>
     <a href="novo_sonho.html">Novo Sonho</a>
-    <a href="#" onclick="logout()" class="logout-btn">Sair</a>
+
   </div>
 
   <!-- Conteúdo -->
@@ -43,31 +43,29 @@
         <option value="ruim">Ruim</option>
       </select>
 
-      <!-- Área de interpretação (mesmo esquema da tela de novo sonho) -->
-      <button id="interpretarBtn" class="espacado" onclick="interpretarSonho()">
+      <!-- Interpretação -->
+      <button type="button" id="interpretarBtn" class="espacado" onclick="interpretarSonho()">
         Interpretar Sonho 🧠
       </button>
 
       <label for="interpretacao">Significado do Sonho</label>
-      <textarea
-        id="interpretacao"
-        disabled
-        placeholder="A interpretação aparecerá aqui..."
-      ></textarea>
+      <textarea id="interpretacao" disabled placeholder="A interpretação aparecerá aqui..."></textarea>
 
       <!-- Botão final: salvar alterações -->
-      <button class="espacado" onclick="atualizarSonho()">Salvar Alterações</button>
+      <button type="button" id="salvarBtn" class="espacado">
+        Salvar Alterações
+      </button>
 
-      <div id="successMsg" class="success-message">
+      <div id="successMsg" class="success-message" style="display:none;">
         Sonho atualizado com sucesso! 🎉
       </div>
     </div>
   </div>
 
   <script src="./assets/js/menu.js"></script>
-  <script src="./assets/js/logout.js"></script>
   <script src="./assets/js/editar_sonho.js"></script>
   <script src="./assets/js/temas.js" defer></script>
 
 </body>
+
 </html>

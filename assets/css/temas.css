@@ -40,7 +40,7 @@
 
 /* Tema 5 — Futurista Dark Violet */
 .theme-future {
---bg-color: #12041f;
+    --bg-color: #12041f;
     --text-color: #f2e6ff;
     --primary-color: #a733ff;
     --secondary-color: #4c2b66;

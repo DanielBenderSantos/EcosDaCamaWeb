@@ -15,13 +15,6 @@ function getUserFromStorage() {
 
 document.addEventListener("DOMContentLoaded", () => {
   const token = getToken();
-
-  // Se não estiver logado, volta pra tela de login
-  if (!token) {
-    window.location.href = "index.html";
-    return;
-  }
-
   const user = getUserFromStorage();
 
   const nomeInput = document.getElementById("nome");

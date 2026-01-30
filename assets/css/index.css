@@ -1,104 +1,82 @@
-/* Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+.dreams-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-body {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(to bottom right, #f3e8ff, #ffffff);
+.dream-card {
+  background: #ffffff17;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-/* Container */
-.container {
-    width: 100%;
-    max-width: 380px;
-    padding: 20px;
+.dream-card h3 {
+  margin: 0 0 8px;
+  color: var(--primary-color, #6a0dad);
 }
 
-/* Caixa de Login */
-.login-box {
-    background: #ffffffcc;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    backdrop-filter: blur(5px);
+.dream-date {
+  font-size: 0.85rem;
+  color: var(--text-color, #000);
+  margin-bottom: 8px;
 }
 
-.login-box h2 {
-    text-align: center;
-    color: #6a4fbf;
-    margin-bottom: 20px;
+.dream-description {
+  margin-bottom: 8px;
+  color: var(--text-color, #000);
+
 }
 
-/* Grupo de Inputs */
-.input-group {
-    margin-bottom: 15px;
+.dream-mood {
+  font-size: 0.85rem;
+  font-weight: bold;
 }
 
-label {
-    font-size: 14px;
-    color: #5a4a7f;
+/* humores */
+.mood-bom {
+  color: #2e7d32;
 }
 
-input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #d6c3ff;
-    border-radius: 8px;
-    outline: none;
-    background: #faf7ff;
-    transition: border 0.3s ease;
+.mood-neutro {
+  color: #999;
 }
 
-input:focus {
-    border-color: #9b7dff;
+.mood-ruim {
+  color: #c62828;
 }
 
-/* Botão */
-.btn {
-    width: 100%;
-    padding: 12px;
-    background: #9b7dff;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    margin-top: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease;
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
 }
 
-.btn:hover {
-    background: #8a6aff;
+.dream-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
 }
 
-/* Texto de cadastro */
-.register-text {
-    text-align: center;
-    margin-top: 15px;
-    font-size: 14px;
-    color: #5a4a7f;
+.dream-actions .edit-btn,
+.dream-actions .delete-btn {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
 }
 
-.register-text a {
-    color: #8a6aff;
-    text-decoration: none;
+.dream-actions .edit-btn {
+  background-color: var(--primary-color, #6a0dad);
+  color: #fff;
 }
 
-.register-text a:hover {
-    text-decoration: underline;
-}
-
-/* Responsividade */
-@media (max-width: 400px) {
-    .login-box {
-        padding: 20px;
-    }
+.dream-actions .delete-btn {
+  background-color: #e53935;
+  color: #fff;
 }
